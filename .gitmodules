@@ -1,0 +1,3 @@
+[submodule "blog_app/server"]
+	path = blog_app/server
+	url = https://github.com/uzgurdev/blog_app.git
