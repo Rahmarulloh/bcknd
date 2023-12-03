@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import routes from "../routes";
+import config from "./config";
 
 const app = express();
 
@@ -10,8 +12,5 @@ app.get("/", (req, res) => {
   res.send("Hello Samandar Brat!");
 });
 
-const PORT = 3030;
-
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+routes(app);
+config(app);
