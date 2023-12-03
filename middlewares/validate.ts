@@ -1,8 +1,7 @@
-// validate.ts
-
 import express from "express";
-import { IBody, IResponse } from "../utils/types";
+
 import { admin } from "../database";
+import { IBody, IResponse } from "../utils/types";
 
 function validateRegister(req: express.Request): IResponse.IError | null {
   const { name, email, password, role } = req.body as IBody.IRegister;

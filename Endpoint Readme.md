@@ -14,9 +14,9 @@
 
 | Routes                     | HTTP Verb  | Post Body                   | Description          | Task |
 | -------------------------- | ---------- | --------------------------- | -------------------- | ---- |
-| `/user/register`           | **POST**   | User register credentials\* | Simple User Register | ◻️   |
-| `/user/login`              | **POST**   | User credentials\*          | Simple User Login    | ◻️   |
-| `/user/logout`             | **DELETE** | -                           | Simple User Logout   | ◻️   |
+| `/user/register`           | **POST**   | User register credentials\* | Simple User Register | ✅   |
+| `/user/login`              | **POST**   | User credentials\*          | Simple User Login    | ✅   |
+| `/user/logout/:userId`     | **DELETE** | -                           | Simple User Logout   | ✅   |
 | `/user/posts`              | **GET**    | -                           | List All Posts       | ◻️   |
 | `/user/posts/:postId`      | **GET**    | -                           | Get Single Post      | ◻️   |
 | `/user/comment/:postId`    | **POST**   | Comment data\*              | Add Comment          | ◻️   |
@@ -32,7 +32,7 @@
 
 ## Database Schema
 
-### Users Table
+### Users Table ✅
 
 | Field Name | Field Type | Description                  |
 | ---------- | ---------- | ---------------------------- |
