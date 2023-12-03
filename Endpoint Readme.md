@@ -4,11 +4,11 @@
 
 | Routes                 | HTTP Verb  | Post Body   | Description     | Task |
 | ---------------------- | ---------- | ----------- | --------------- | ---- |
-| `/admin/posts`         | **GET**    | -           | List All Posts  | ◻️   |
-| `/admin/newPost`       | **POST**   | Post data\* | New Post        | ◻️   |
-| `/admin/posts/:postId` | **GET**    | -           | Get Single Post | ◻️   |
-| `/admin/posts/:postId` | **PUT**    | Post data\* | Edit Post       | ◻️   |
-| `/admin/posts/:postId` | **DELETE** | -           | Delete Post     | ◻️   |
+| `/admin/posts`         | **GET**    | -           | List All Posts  | ✅   |
+| `/admin/newPost`       | **POST**   | Post data\* | New Post        | ✅   |
+| `/admin/posts/:postId` | **GET**    | -           | Get Single Post | ✅   |
+| `/admin/posts/:postId` | **PUT**    | Post data\* | Edit Post       | ✅   |
+| `/admin/posts/:postId` | **DELETE** | -           | Delete Post     | ✅   |
 
 ## Simple User Endpoints
 

@@ -76,4 +76,49 @@ function validateLogin(req: express.Request): IResponse.IError | null {
   return null;
 }
 
-export { validateLogin, validateRegister };
+function validateAdmin(req: express.Request): IResponse.IError | null {
+  const { adminId } = req.params;
+
+  if (adminId !== admin.id) {
+    return {
+      status: "error",
+      message: "Unauthorized access! 👮‍♂️",
+    };
+  }
+
+  return null;
+}
+
+function validatePost(req: express.Request): IResponse.IError | null {
+  const { title, content } = req.body as IBody.IPost;
+
+  if (!title && !content) {
+    return {
+      status: "error",
+      message: "All fields are required",
+    };
+  }
+
+  return null;
+}
+
+function validateSinglePost(req: express.Request): IResponse.IError | null {
+  const { postId } = req.params;
+
+  if (!postId) {
+    return {
+      status: "error",
+      message: "Post ID is required",
+    };
+  }
+
+  return null;
+}
+
+export {
+  validateLogin,
+  validateRegister,
+  validatePost,
+  validateSinglePost,
+  validateAdmin,
+};

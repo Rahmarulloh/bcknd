@@ -7,6 +7,7 @@ import { validateLogin, validateRegister } from "../middlewares/validate";
 
 const router = express.Router();
 
+/** USER REGISTER */
 router.post("/register", (req, res) => {
   const { name, email, password, role } = req.body as IBody.IRegister;
   const responseError: IResponse.IError = {
@@ -52,6 +53,7 @@ router.post("/register", (req, res) => {
   return res.status(200).send(responseSuccess);
 });
 
+/** USER LOGIN */
 router.post("/login", (req, res) => {
   const { email, password } = req.body as IBody.ILogin;
   const responseError: IResponse.IError = {
@@ -90,6 +92,7 @@ router.post("/login", (req, res) => {
   res.status(400).send(responseError);
 });
 
+/** USER LOGOUT */
 router.delete("/logout/:userId", (req, res) => {
   const { userId } = req.params;
   const responseError: IResponse.IError = {
