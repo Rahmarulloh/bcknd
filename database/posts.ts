@@ -5,25 +5,21 @@ const posts: IEntity.IPost[] = [];
 /** LIST ALL POSTS */
 const getPosts = () => posts;
 
-/** ADD POST */
-const addPost = (post: IEntity.IPost) => {
-  posts.push(post);
-};
-
 /** GET ONE POST */
-const getPost = (id: string) => {
-  return posts.find((post) => post.id === id);
-};
+const getPost = (id: string) => posts.find((post) => post.id === id);
+
+/** ADD POST */
+const addPost = (post: IEntity.IPost) => posts.push(post);
 
 /** UPDATE POST */
 const updatePost = (id: string, post: IBody.IPost) => {
-  const index = posts.findIndex((post) => post.id === id);
-  posts[index].title = post.title;
-  posts[index].content =
-    post.content === undefined ? posts[index].content : post.content;
-  posts[index].updatedAt = new Date();
+  const idx = posts.findIndex((post) => post.id === id);
+  posts[idx].title = post.title;
+  posts[idx].content =
+    post.content === undefined ? posts[idx].content : post.content;
+  posts[idx].updatedAt = new Date();
 
-  return posts[index];
+  return posts[idx];
 };
 
 /** DELETE POST */

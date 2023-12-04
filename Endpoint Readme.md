@@ -17,8 +17,8 @@
 | `/user/register`           | **POST**   | User register credentials\* | Simple User Register | ✅   |
 | `/user/login`              | **POST**   | User credentials\*          | Simple User Login    | ✅   |
 | `/user/logout/:userId`     | **DELETE** | -                           | Simple User Logout   | ✅   |
-| `/user/posts`              | **GET**    | -                           | List All Posts       | ◻️   |
-| `/user/posts/:postId`      | **GET**    | -                           | Get Single Post      | ◻️   |
+| `/user/posts`              | **GET**    | -                           | List All Posts       | ✅   |
+| `/user/posts/:postId`      | **GET**    | -                           | Get Single Post      | ✅   |
 | `/user/comment/:postId`    | **POST**   | Comment data\*              | Add Comment          | ◻️   |
 | `/user/comment/:commentId` | **PUT**    | Comment data\*              | Edit Comment         | ◻️   |
 | `/user/comment/:commentId` | **DELETE** | -                           | Delete Comment       | ◻️   |
@@ -44,7 +44,7 @@
 | created_at | timestamp  | Created At                   |
 | updated_at | timestamp  | Updated At                   |
 
-### Posts Table
+### Posts Table ✅
 
 | Field Name | Field Type | Description   |
 | ---------- | ---------- | ------------- |
@@ -54,7 +54,7 @@
 | created_at | timestamp  | Created At    |
 | updated_at | timestamp  | Updated At    |
 
-### Comments Table
+### Comments Table ✅
 
 | Field Name    | Field Type | Description      |
 | ------------- | ---------- | ---------------- |

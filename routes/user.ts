@@ -4,6 +4,13 @@ import { faker } from "@faker-js/faker";
 import { addUser, admin, users } from "../database/index";
 import { IBody, IEntity, IResponse } from "../utils/types";
 import { validateLogin, validateRegister } from "../middlewares/validate";
+import { getPost, getPosts } from "../database/posts";
+import {
+  addComment,
+  deleteComment,
+  getComments,
+  updateComment,
+} from "../database/comments";
 
 const router = express.Router();
 
@@ -135,6 +142,265 @@ router.delete("/logout/:userId", (req, res) => {
   };
 
   return res.status(200).send(responseSuccess);
+});
+
+/** USER PROFILE */
+router.get("/profile/:userId", (req, res) => {
+  const { userId } = req.params;
+  const responseError: IResponse.IError = {
+    status: "error",
+    message: `User does not exist with ID ${userId}`,
+  };
+
+  if (userId === admin.id) {
+    const responseSuccess: IResponse.ISuccess<IEntity.IUser> = {
+      status: "success",
+      data: admin,
+      message: "User admin fetched successfully",
+    };
+    return res.status(200).send(responseSuccess);
+  }
+
+  const userIndex = users.findIndex((user) => user.id === userId);
+
+  if (userIndex === -1) {
+    return res.status(400).send(responseError);
+  }
+
+  const user = users[userIndex];
+
+  const responseSuccess: IResponse.ISuccess<IEntity.IUser> = {
+    status: "success",
+    data: user,
+    message: "User fetched successfully",
+  };
+
+  return res.status(200).send(responseSuccess);
+});
+
+/** USER GET ALL POSTS */
+router.get("/:userId/posts", (req, res) => {
+  const { userId } = req.params;
+
+  const responseError: IResponse.IError = {
+    status: "error",
+    message: `User does not exist with ID ${userId}`,
+  };
+
+  if (userId === admin.id) {
+    const responseSuccess: IResponse.ISuccess<IEntity.IPost[]> = {
+      status: "success",
+      data: getPosts(),
+      message: "Posts fetched successfully",
+    };
+    return res.status(200).send(responseSuccess);
+  }
+
+  const userIndex = users.findIndex((user) => user.id === userId);
+
+  if (userIndex === -1) {
+    return res.status(400).send(responseError);
+  }
+
+  const user = users[userIndex];
+
+  if (!user) {
+    responseError.message = "You need to login or register first";
+    return res.status(400).send(responseError);
+  }
+
+  const response: IResponse.ISuccess<IEntity.IPost[]> = {
+    status: "success",
+    data: getPosts(),
+    message: "Posts fetched successfully",
+  };
+
+  res.send(response);
+});
+
+/** USER GET ONE POST */
+router.get("/:userId/post/:postId", (req, res) => {
+  const { userId, postId } = req.params;
+  const responseError: IResponse.IError = {
+    status: "error",
+    message: `User does not exist with ID ${userId}`,
+  };
+
+  if (userId === admin.id) {
+    const responseSuccess: IResponse.ISuccess<IEntity.IPost> = {
+      status: "success",
+      data: getPost(postId),
+      message: "Post fetched successfully",
+    };
+    return res.status(200).send(responseSuccess);
+  }
+
+  const userIndex = users.findIndex((user) => user.id === userId);
+
+  if (userIndex === -1) {
+    return res.status(400).send(responseError);
+  }
+
+  const user = users[userIndex];
+
+  if (!user) {
+    responseError.message = "You need to login or register first";
+    return res.status(400).send(responseError);
+  }
+
+  const response: IResponse.ISuccess<IEntity.IPost> = {
+    status: "success",
+    data: getPost(postId),
+    message: "Post fetched successfully",
+  };
+
+  res.send(response);
+});
+
+/** USER ADD COMMENT */
+router.post("/:userId/comment/:postId", (req, res) => {
+  const { userId, postId } = req.params;
+  const { content } = req.body;
+  const responseError: IResponse.IError = {
+    status: "error",
+    message: `User does not exist with ID ${userId}`,
+  };
+
+  if (userId === admin.id) {
+    const responseSuccess: IResponse.ISuccess<IEntity.IComment> = {
+      status: "success",
+      data: addComment(postId, userId, content),
+      message: "Comment added successfully",
+    };
+    return res.status(200).send(responseSuccess);
+  }
+
+  const userIndex = users.findIndex((user) => user.id === userId);
+
+  if (userIndex === -1) {
+    return res.status(400).send(responseError);
+  }
+
+  const user = users[userIndex];
+
+  if (!user) {
+    responseError.message = "You need to login or register first";
+    return res.status(400).send(responseError);
+  }
+
+  const response: IResponse.ISuccess<IEntity.IComment> = {
+    status: "success",
+    data: addComment(postId, userId, content),
+    message: "Comment added successfully",
+  };
+
+  res.send(response);
+});
+
+/** USER UPDATE COMMENT */
+router.put("/:userId/comment/:commentId", (req, res) => {
+  const { userId, commentId } = req.params;
+  const { content } = req.body;
+  const responseError: IResponse.IError = {
+    status: "error",
+    message: `User does not exist with ID ${userId}`,
+  };
+
+  if (userId === admin.id) {
+    const responseSuccess: IResponse.ISuccess<IEntity.IComment> = {
+      status: "success",
+      data: updateComment(userId, commentId, content),
+      message: "Comment updated successfully for user by Administrators!",
+    };
+    return res.status(200).send(responseSuccess);
+  }
+
+  const userIndex = users.findIndex((user) => user.id === userId);
+
+  if (userIndex === -1) {
+    return res.status(400).send(responseError);
+  }
+
+  const user = users[userIndex];
+
+  if (!user) {
+    responseError.message =
+      "You need to login or register first in order to update comments ⚠️";
+    return res.status(400).send(responseError);
+  }
+
+  const response: IResponse.ISuccess<IEntity.IComment> = {
+    status: "success",
+    data: updateComment(userId, commentId, content),
+    message: "Comment updated successfully",
+  };
+
+  res.send(response);
+});
+
+/** USER DELETE COMMENT */
+router.delete("/:userId/comment/:commentId", (req, res) => {
+  const { userId, commentId } = req.params;
+  const responseError: IResponse.IError = {
+    status: "error",
+    message: `User does not exist with ID ${userId}`,
+  };
+
+  if (userId === admin.id) {
+    const responseSuccess: IResponse.ISuccess<IEntity.IComment> = {
+      status: "success",
+      data: deleteComment(userId, commentId),
+      message: "Comment deleted successfully for user by Administrators!",
+    };
+    return res.status(200).send(responseSuccess);
+  }
+
+  const userIndex = users.findIndex((user) => user.id === userId);
+
+  if (userIndex === -1) {
+    return res.status(400).send(responseError);
+  }
+
+  const user = users[userIndex];
+
+  if (!user) {
+    responseError.message =
+      "You need to login or register first in order to delete comments ⚠️";
+    return res.status(400).send(responseError);
+  }
+
+  const response: IResponse.ISuccess<IEntity.IComment> = {
+    status: "success",
+    data: deleteComment(userId, commentId),
+    message: "Comment deleted successfully",
+  };
+
+  res.send(response);
+});
+
+/** USER GET COMMENTS */
+router.get("/:userId/:postId/comments", (req, res) => {
+  const { postId, userId } = req.params;
+  const postIdx = users.findIndex((user) => user.id === userId);
+
+  if (postIdx === -1) {
+    return res.status(400).send({
+      status: "error",
+      message: `User does not exist with ID ${userId}`,
+    });
+  }
+
+  const user = users[postIdx];
+
+  const comments = getComments(user.id);
+
+  const response: IResponse.ISuccess<IEntity.IComment[]> = {
+    status: "success",
+    data: comments,
+    message: "Comments fetched successfully",
+  };
+
+  res.send(response);
 });
 
 export default router;
